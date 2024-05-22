@@ -22,9 +22,13 @@ AEnhancedInputCharacter::AEnhancedInputCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+	// bUseControllerRotationPitch = true;
+	// bUseControllerRotationYaw = true;
+	// bUseControllerRotationRoll = true;
 
 	// Configure character movement (Try setting these to different values and see what happens)
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...
+	// GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 500.0f, 0.0f); // ...at this rotation rate
 
 	// Note: For faster iteration times these variables, and many more, can be tweaked in the Character Blueprint
