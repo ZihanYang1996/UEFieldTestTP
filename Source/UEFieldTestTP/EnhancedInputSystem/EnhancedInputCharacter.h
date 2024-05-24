@@ -44,7 +44,14 @@ class UEFIELDTESTTP_API AEnhancedInputCharacter : public ACharacter
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera Customization", meta=(AllowPrivateAccess="true"))
 	class UCameraComponent* FollowCamera;
-	
+
+	// Overlap Capsule
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Overlap Detection", meta=(AllowPrivateAccess="true"))
+	UCapsuleComponent* OverlapCapsule;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Overlap Detection", meta=(AllowPrivateAccess="true"))
+	int32 NumOverlapping = false;
+
 public:
 	// Sets default values for this character's properties
 	AEnhancedInputCharacter();
@@ -56,9 +63,25 @@ protected:
 	void Move(const struct FInputActionValue& Value);
 	void Look(const struct FInputActionValue& Value);
 
-public:	
+public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	
+	// Called every frame
+	virtual void Tick(float DeltaSeconds) override;
+	
 	virtual void Jump() override;
+
+private:
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                  int32 OtherBodyIndex);
+
+
+	// A function to move the character forward and backward just a tiny bit to make sure character can be pushed
+	void ShakeCharacter();
 };
