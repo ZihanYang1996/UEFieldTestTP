@@ -173,6 +173,7 @@ void AEnhancedInputCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp
                                              UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
                                              const FHitResult& SweepResult)
 {
+	// Check if the overlapped actor is the owner
 	if (OtherActor == this)
 	{
 		return;
@@ -185,6 +186,7 @@ void AEnhancedInputCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp
 void AEnhancedInputCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                            UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	// Check if the overlapped actor is the owner
 	// Print out the name of the actor that was hit
 	// UE_LOG(LogTemplateCharacter, Warning, TEXT("End Overlap: %s"), *OtherActor->GetActorLabel());
 	NumOverlapping -= NumOverlapping > 0 ? 1 : 0;
