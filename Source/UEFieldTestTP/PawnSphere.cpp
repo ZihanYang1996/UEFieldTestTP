@@ -2,6 +2,7 @@
 
 
 #include "PawnSphere.h"
+#include "EnhancedInputComponent.h"
 
 // Sets default values
 APawnSphere::APawnSphere()
@@ -32,3 +33,12 @@ void APawnSphere::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 }
 
+void APawnSphere::Move(const FInputActionValue& Value)
+{
+	FVector2D MovementVector = Value.Get<FVector2D>();
+	// Print the value on the screen
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Move Value: %s"), *MovementVector.ToString()));
+	}
+}

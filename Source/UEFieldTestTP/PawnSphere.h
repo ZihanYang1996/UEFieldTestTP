@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "PawnSphere.generated.h"
 
+struct FInputActionValue;
 UCLASS()
 class UEFIELDTESTTP_API APawnSphere : public APawn
 {
@@ -25,5 +26,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void Move(const FInputActionValue& Value);
 
 };
