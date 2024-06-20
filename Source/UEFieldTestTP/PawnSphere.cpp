@@ -20,12 +20,15 @@ APawnSphere::APawnSphere()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = 500.f;
+	SpringArm->bUsePawnControlRotation = true;
 	SpringArm->bEnableCameraLag = true;
 
 	// Create the camera component
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->bUsePawnControlRotation = false;
+
+	bUseControllerRotationYaw = true; // Ensure the pawn uses the controller's yaw rotation
 
 }
 
@@ -54,10 +57,10 @@ void APawnSphere::Move(const FInputActionValue& Value)
 {
 	FVector2D MovementVector = Value.Get<FVector2D>();
 	// Print the value on the screen
-	// if (GEngine)
-	// {
-	// 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Sphere move Value: %s"), *MovementVector.ToString()));
-	// }
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Sphere move Value: %s"), *MovementVector.ToString()));
+	}
 
 	FVector DeltaLocation = GetActorForwardVector() * MovementVector.Y + GetActorRightVector() * MovementVector.X;
 	float DeltaTime = GetWorld()->GetDeltaSeconds();

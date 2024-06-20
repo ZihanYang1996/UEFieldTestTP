@@ -36,6 +36,7 @@ private:
 
 	void Move(const FInputActionValue& Value);
 	void SwitchPawn(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
 
 	APawn* CurrentControleldPawn;
 	APawn* ControlledCube;

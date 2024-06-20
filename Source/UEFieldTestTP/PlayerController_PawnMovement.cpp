@@ -43,7 +43,7 @@ void APlayerController_PawnMovement::SetupInputComponent()
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this,
 		                                   &APlayerController_PawnMovement::Move);
-		// EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerController_PawnMovement::Look);
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerController_PawnMovement::Look);
 		EnhancedInputComponent->BindAction(SwitchPawnAction, ETriggerEvent::Completed, this,
 		                                   &APlayerController_PawnMovement::SwitchPawn);
 	}
@@ -84,4 +84,11 @@ void APlayerController_PawnMovement::SwitchPawn(const FInputActionValue& Value)
 
 	Possess(CurrentControleldPawn);
 	SetViewTargetWithBlend(CurrentControleldPawn);
+}
+
+void APlayerController_PawnMovement::Look(const FInputActionValue& Value)
+{
+	FVector2D LookInput = Value.Get<FVector2D>();
+	AddYawInput(LookInput.X);
+	AddPitchInput(LookInput.Y);
 }
