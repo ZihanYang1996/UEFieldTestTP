@@ -20,12 +20,15 @@ APawnCube::APawnCube()
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = 500.f;
+	SpringArm->bUsePawnControlRotation = true;
 	SpringArm->bEnableCameraLag = true;
 
 	// Create the camera component
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 	Camera->bUsePawnControlRotation = false;
+
+	bUseControllerRotationYaw = false; // Ensure the pawn uses the controller's yaw rotation
 }
 
 // Called when the game starts or when spawned
@@ -56,7 +59,16 @@ void APawnCube::Move(const FInputActionValue& Value)
 	// 	                                 FString::Printf(TEXT("Cube move Value: %s"), *MovementVector.ToString()));
 	// }
 
-	FVector DeltaLocation = GetActorForwardVector() * MovementVector.Y + GetActorRightVector() * MovementVector.X;
+	FRotator ControllerRoataionYaw(0, GetControlRotation().Yaw, 0);
+	FVector ForwardVector = FRotationMatrix(ControllerRoataionYaw).GetUnitAxis(EAxis::X);
+	FVector RightVector = FRotationMatrix(ControllerRoataionYaw).GetUnitAxis(EAxis::Y);
+	
+	
+	FVector DeltaLocation = ForwardVector * MovementVector.Y + RightVector * MovementVector.X;
 	float DeltaTime = GetWorld()->GetDeltaSeconds();
 	AddActorWorldOffset(DeltaLocation * MoveSpeed * DeltaTime, true);
+	
+	// Rotate the cube
+	// FRotator NewRotation = DeltaLocation.Rotation();
+	// SetActorRotation(NewRotation);
 }
