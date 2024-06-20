@@ -32,21 +32,18 @@ APawnCube::APawnCube()
 void APawnCube::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void APawnCube::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
 void APawnCube::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 void APawnCube::Move(const FInputActionValue& Value)
@@ -55,7 +52,7 @@ void APawnCube::Move(const FInputActionValue& Value)
 	// Print the value on the screen
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Cube move Value: %s"), *MovementVector.ToString()));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+		                                 FString::Printf(TEXT("Cube move Value: %s"), *MovementVector.ToString()));
 	}
 }
-

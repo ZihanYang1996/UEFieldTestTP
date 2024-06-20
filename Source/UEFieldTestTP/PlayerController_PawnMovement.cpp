@@ -17,12 +17,14 @@ void APlayerController_PawnMovement::BeginPlay()
 	Super::BeginPlay();
 
 	// Add Input Mapping Context
-	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(
+		GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(InputMappingContext, 0);
 	}
 
-	if (AGameModeBase_PawnMovement* GameMode = Cast<AGameModeBase_PawnMovement>(UGameplayStatics::GetGameMode(GetWorld())))
+	if (AGameModeBase_PawnMovement* GameMode = Cast<AGameModeBase_PawnMovement>(
+		UGameplayStatics::GetGameMode(GetWorld())))
 	{
 		ControlledCube = GameMode->GetControlledCube();
 		ControlledSphere = GameMode->GetControlledSphere();
@@ -39,9 +41,11 @@ void APlayerController_PawnMovement::SetupInputComponent()
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerController_PawnMovement::Move);
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this,
+		                                   &APlayerController_PawnMovement::Move);
 		// EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerController_PawnMovement::Look);
-		EnhancedInputComponent->BindAction(SwitchPawnAction, ETriggerEvent::Completed, this, &APlayerController_PawnMovement::SwitchPawn);
+		EnhancedInputComponent->BindAction(SwitchPawnAction, ETriggerEvent::Completed, this,
+		                                   &APlayerController_PawnMovement::SwitchPawn);
 	}
 }
 
@@ -59,6 +63,9 @@ void APlayerController_PawnMovement::Move(const FInputActionValue& Value)
 	{
 		UE_LOG(LogTemp, Error, TEXT("No pawn to move!"));
 	}
+
+	if (CurrentControleldPawn->IsA(APawnCube::StaticClass()))
+
 }
 
 void APlayerController_PawnMovement::SwitchPawn(const FInputActionValue& Value)
@@ -80,4 +87,3 @@ void APlayerController_PawnMovement::SwitchPawn(const FInputActionValue& Value)
 	Possess(CurrentControleldPawn);
 	SetViewTargetWithBlend(CurrentControleldPawn);
 }
-
