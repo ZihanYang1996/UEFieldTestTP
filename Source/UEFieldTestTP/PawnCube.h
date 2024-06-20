@@ -41,6 +41,8 @@ private:
 	// Movement variables
 	UPROPERTY(EditAnywhere, Category="Movement")
 	float MoveSpeed = 500.0f;
+	UPROPERTY(EditAnywhere, Category="Movement")
+	float RotateSpeed = 500.0f;
 
 	// Camera Component
 	UPROPERTY(EditAnywhere, Category="Camera")

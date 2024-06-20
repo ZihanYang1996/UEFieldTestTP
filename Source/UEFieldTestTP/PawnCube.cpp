@@ -64,11 +64,13 @@ void APawnCube::Move(const FInputActionValue& Value)
 	FVector RightVector = FRotationMatrix(ControllerRoataionYaw).GetUnitAxis(EAxis::Y);
 	
 	
-	FVector DeltaLocation = ForwardVector * MovementVector.Y + RightVector * MovementVector.X;
+	FVector ScaledDirection = ForwardVector * MovementVector.Y + RightVector * MovementVector.X;
 	float DeltaTime = GetWorld()->GetDeltaSeconds();
-	AddActorWorldOffset(DeltaLocation * MoveSpeed * DeltaTime, true);
+	AddActorWorldOffset(ScaledDirection * MoveSpeed * DeltaTime, true);
 	
 	// Rotate the cube
-	// FRotator NewRotation = DeltaLocation.Rotation();
-	// SetActorRotation(NewRotation);
+	FRotator TargetRotation = ScaledDirection.Rotation();
+	// Smoothly rotate the cube
+	FRotator NewRotation = FMath::RInterpConstantTo(GetActorRotation(), TargetRotation, DeltaTime, RotateSpeed);
+	SetActorRotation(NewRotation);
 }
