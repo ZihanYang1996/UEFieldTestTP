@@ -50,9 +50,13 @@ void APawnCube::Move(const FInputActionValue& Value)
 {
 	FVector2D MovementVector = Value.Get<FVector2D>();
 	// Print the value on the screen
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-		                                 FString::Printf(TEXT("Cube move Value: %s"), *MovementVector.ToString()));
-	}
+	// if (GEngine)
+	// {
+	// 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+	// 	                                 FString::Printf(TEXT("Cube move Value: %s"), *MovementVector.ToString()));
+	// }
+
+	FVector DeltaLocation = GetActorForwardVector() * MovementVector.Y + GetActorRightVector() * MovementVector.X;
+	float DeltaTime = GetWorld()->GetDeltaSeconds();
+	AddActorWorldOffset(DeltaLocation * MoveSpeed * DeltaTime, true);
 }

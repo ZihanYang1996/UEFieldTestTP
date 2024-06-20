@@ -39,7 +39,8 @@ private:
 	UStaticMeshComponent* CubeMesh;
 
 	// Movement variables
-	FVector CurrentVelocity;
+	UPROPERTY(EditAnywhere, Category="Movement")
+	float MoveSpeed = 500.0f;
 
 	// Camera Component
 	UPROPERTY(EditAnywhere, Category="Camera")
