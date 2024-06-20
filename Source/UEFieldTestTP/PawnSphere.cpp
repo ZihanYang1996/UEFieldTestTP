@@ -56,6 +56,6 @@ void APawnSphere::Move(const FInputActionValue& Value)
 	// Print the value on the screen
 	if (GEngine)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Move Value: %s"), *MovementVector.ToString()));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Sphere move Value: %s"), *MovementVector.ToString()));
 	}
 }

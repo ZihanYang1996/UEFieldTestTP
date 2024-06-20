@@ -6,6 +6,10 @@
 #include "GameFramework/Pawn.h"
 #include "PawnCube.generated.h"
 
+class USpringArmComponent;
+struct FInputActionValue;
+class UCameraComponent;
+
 UCLASS()
 class UEFIELDTESTTP_API APawnCube : public APawn
 {
@@ -25,5 +29,23 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void Move(const FInputActionValue& Value);
+
+	UCameraComponent* GetCameraComponent() const { return Camera; }
+
+private:
+	UPROPERTY(EditAnywhere, Category="Input")
+	UStaticMeshComponent* CubeMesh;
+
+	// Movement variables
+	FVector CurrentVelocity;
+
+	// Camera Component
+	UPROPERTY(EditAnywhere, Category="Camera")
+	USpringArmComponent* SpringArm;
+
+	UPROPERTY(EditAnywhere, Category="Camera")
+	UCameraComponent* Camera;
 
 };
