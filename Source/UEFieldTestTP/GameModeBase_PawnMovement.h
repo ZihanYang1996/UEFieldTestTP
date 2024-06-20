@@ -13,5 +13,17 @@ UCLASS()
 class UEFIELDTESTTP_API AGameModeBase_PawnMovement : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	AGameModeBase_PawnMovement();
+
+protected:
+	virtual void BeginPlay() override;
+
+public:
+	APawn* ControlledCube;
+	APawn* ControlledSphere;
+	APawn* CurrentControlledPawn;
+
+	void InitializePawns();
 };

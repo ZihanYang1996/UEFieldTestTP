@@ -7,6 +7,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 #include "PawnSphere.h"
+#include "PawnCube.h"
+#include "DefaultInputSystem/MyGameMode.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameModeBase_PawnMovement.h"
 
 void APlayerController_PawnMovement::BeginPlay()
 {
@@ -18,8 +22,15 @@ void APlayerController_PawnMovement::BeginPlay()
 		Subsystem->AddMappingContext(InputMappingContext, 0);
 	}
 
+	if (AGameModeBase_PawnMovement* GameMode = Cast<AGameModeBase_PawnMovement>(UGameplayStatics::GetGameMode(GetWorld())))
+	{
+		ControlledCube = GameMode->ControlledCube;
+		ControlledSphere = GameMode->ControlledSphere;
+		CurrentControleldPawn = GameMode->CurrentControlledPawn;
+	}
+
 	// Get the pawn controlled by the player
-	CurrentControleldPawn = GetPawn();
+	// CurrentControleldPawn = GetPawn();
 }
 
 void APlayerController_PawnMovement::SetupInputComponent()
@@ -30,11 +41,43 @@ void APlayerController_PawnMovement::SetupInputComponent()
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerController_PawnMovement::Move);
 		// EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerController_PawnMovement::Look);
-		// EnhancedInputComponent->BindAction(SwitchPawnAction, ETriggerEvent::Triggered, this, &APlayerController_PawnMovement::SwitchPawn);
+		EnhancedInputComponent->BindAction(SwitchPawnAction, ETriggerEvent::Completed, this, &APlayerController_PawnMovement::SwitchPawn);
 	}
 }
 
 void APlayerController_PawnMovement::Move(const FInputActionValue& Value)
 {
-	Cast<APawnSphere>(CurrentControleldPawn)->Move(Value);
+	if (CurrentControleldPawn == ControlledCube)
+	{
+		Cast<APawnCube>(CurrentControleldPawn)->Move(Value);
+	}
+	else if (CurrentControleldPawn == ControlledSphere)
+	{
+		Cast<APawnSphere>(CurrentControleldPawn)->Move(Value);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No pawn to move!"));
+	}
 }
+
+void APlayerController_PawnMovement::SwitchPawn(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Switching pawn!"));
+	if (CurrentControleldPawn == ControlledCube)
+	{
+		CurrentControleldPawn = ControlledSphere;
+	}
+	else if (CurrentControleldPawn == ControlledSphere)
+	{
+		CurrentControleldPawn = ControlledCube;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No pawn to switch to!"));
+	}
+
+	Possess(CurrentControleldPawn);
+	SetViewTargetWithBlend(CurrentControleldPawn);
+}
+

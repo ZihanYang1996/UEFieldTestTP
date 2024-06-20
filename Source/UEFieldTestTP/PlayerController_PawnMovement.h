@@ -35,6 +35,9 @@ private:
 	UInputAction* SwitchPawnAction;
 
 	void Move(const FInputActionValue& Value);
+	void SwitchPawn(const FInputActionValue& Value);
 
 	APawn* CurrentControleldPawn;
+	APawn* ControlledCube;
+	APawn* ControlledSphere;
 };
