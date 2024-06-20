@@ -6,7 +6,10 @@
 #include "GameFramework/Pawn.h"
 #include "PawnSphere.generated.h"
 
+class USpringArmComponent;
 struct FInputActionValue;
+class UCameraComponent;
+
 UCLASS()
 class UEFIELDTESTTP_API APawnSphere : public APawn
 {
@@ -28,5 +31,22 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void Move(const FInputActionValue& Value);
+
+	UCameraComponent* GetCameraComponent() const { return Camera; }
+
+private:
+	// Static Mesh Component
+	UPROPERTY(EditAnywhere, Category="Input")
+	UStaticMeshComponent* SphereMesh;
+
+	// Movement variables
+	FVector CurrentVelocity;
+
+	// Camera Component
+	UPROPERTY(EditAnywhere, Category="Camera")
+	USpringArmComponent* SpringArm;
+
+	UPROPERTY(EditAnywhere, Category="Camera")
+	UCameraComponent* Camera;
 
 };
