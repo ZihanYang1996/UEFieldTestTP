@@ -20,10 +20,15 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-public:
+private:
 	APawn* ControlledCube;
 	APawn* ControlledSphere;
 	APawn* CurrentControlledPawn;
 
 	void InitializePawns();
+
+public:
+	APawn* GetCurrentControlledPawn() const { return CurrentControlledPawn; }
+	APawn* GetControlledCube() const { return ControlledCube; }
+	APawn* GetControlledSphere() const { return ControlledSphere; }
 };

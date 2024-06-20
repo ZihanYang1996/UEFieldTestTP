@@ -24,9 +24,9 @@ void APlayerController_PawnMovement::BeginPlay()
 
 	if (AGameModeBase_PawnMovement* GameMode = Cast<AGameModeBase_PawnMovement>(UGameplayStatics::GetGameMode(GetWorld())))
 	{
-		ControlledCube = GameMode->ControlledCube;
-		ControlledSphere = GameMode->ControlledSphere;
-		CurrentControleldPawn = GameMode->CurrentControlledPawn;
+		ControlledCube = GameMode->GetControlledCube();
+		ControlledSphere = GameMode->GetControlledSphere();
+		CurrentControleldPawn = GameMode->GetCurrentControlledPawn();
 	}
 
 	// Get the pawn controlled by the player
