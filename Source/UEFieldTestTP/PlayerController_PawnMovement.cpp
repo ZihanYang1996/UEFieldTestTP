@@ -51,11 +51,11 @@ void APlayerController_PawnMovement::SetupInputComponent()
 
 void APlayerController_PawnMovement::Move(const FInputActionValue& Value)
 {
-	if (CurrentControleldPawn == ControlledCube)
+	if (CurrentControleldPawn->IsA(APawnCube::StaticClass()))
 	{
 		Cast<APawnCube>(CurrentControleldPawn)->Move(Value);
 	}
-	else if (CurrentControleldPawn == ControlledSphere)
+	else if (CurrentControleldPawn->IsA(APawnSphere::StaticClass()))
 	{
 		Cast<APawnSphere>(CurrentControleldPawn)->Move(Value);
 	}
@@ -63,9 +63,7 @@ void APlayerController_PawnMovement::Move(const FInputActionValue& Value)
 	{
 		UE_LOG(LogTemp, Error, TEXT("No pawn to move!"));
 	}
-
-	if (CurrentControleldPawn->IsA(APawnCube::StaticClass()))
-
+	
 }
 
 void APlayerController_PawnMovement::SwitchPawn(const FInputActionValue& Value)
